@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>CNC Schnittwertrechner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Schritt-Indikator -->
+        <div id="steps">Schritt <span id="currentStep">1</span> von 4</div>
+
+        <!-- Container für Schritte -->
+        <div id="step-container">
+            <!-- Schritt 1: Werkstoff -->
+            <div class="step active" id="step1">
+                <h2>Werkstoffwahl</h2>
+                <div class="grid" id="material-list"></div>
+            </div>
+            
+            <!-- Schritt 2: Werkzeug -->
+            <div class="step" id="step2">
+                <h2>Werkzeugauswahl</h2>
+                <div class="grid" id="tool-list"></div>
+            </div>
+
+            <!-- Schritt 3: Prozess -->
+            <div class="step" id="step3">
+                <h2>Prozessparameter</h2>
+                <div class="grid" id="process-list"></div>
+            </div>
+
+            <!-- Schritt 4: Ergebnis -->
+            <div class="step" id="step4">
+                <h2>Berechnete Schnittwerte</h2>
+                <div id="results">
+                    <p>Drehzahl n: <span id="res-n">0</span> U/min</p>
+                    <p>Vorschub vf: <span id="res-vf">0</span> mm/min</p>
+                </div>
+                <button onclick="resetApp()">Neue Berechnung</button>
+            </div>
+        </div>
+        
+        <button id="prevBtn" onclick="changeStep(-1)" disabled>Zurück</button>
+        <button id="nextBtn" onclick="changeStep(1)">Weiter</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
