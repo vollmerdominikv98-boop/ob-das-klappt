@@ -1,27 +1,80 @@
-:root {
-    --primary: #2c3e50;
-    --accent: #3498db;
-    --bg: #f8f9fa;
-    --card-bg: #ffffff;
-    --border: #dee2e6;
+const data = {
+    materials: [
+        { name: "Aluminium AlMgSi1", vc: 500 },
+        { name: "Aluminiumguss", vc: 300 },
+        { name: "Kupfer", vc: 250 },
+        { name: "Baustahl S235JR", vc: 180 },
+        { name: "Edelstahl 1.4301", vc: 100 }
+    ],
+    tools: [
+        { name: "Schaftfräser D6 VHM", d: 6, z: 4 },
+        { name: "Schaftfräser D8 VHM", d: 8, z: 4 },
+        { name: "Schruppfräser D10 VHM", d: 10, z: 3 }
+    ],
+    profiles: [
+        { name: "Schruppen Standard", fz: 0.08 },
+        { name: "Schlichten fein", fz: 0.05 }
+    ]
+};
+
+let currentStep = 1;
+let selection = { material: null, tool: null, profile: null };
+
+function renderStep() {
+    const container = document.getElementById('step-content');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    // UI Updates
+    document.querySelectorAll('.step-indicator').forEach((el, idx) => {
+        el.classList.toggle('active', idx + 1 === currentStep);
+    });
+    prevBtn.disabled = (currentStep === 1);
+    nextBtn.disabled = (currentStep === 4 || !selection[Object.keys(selection)[currentStep - 1]]);
+
+    container.innerHTML = '';
+
+    if (currentStep === 1) {
+        container.innerHTML = '<h2>Werkstoff auswählen</h2><div class="grid" id="list"></div>';
+        data.materials.forEach(m => addCard('list', m.name, `vc ${m.vc} m/min`, m, 'material'));
+    } else if (currentStep === 2) {
+        container.innerHTML = '<h2>Werkzeug auswählen</h2><div class="grid" id="list"></div>';
+        data.tools.forEach(t => addCard('list', t.name, `Ø ${t.d}mm - ${t.z} Schneiden`, t, 'tool'));
+    } else if (currentStep === 3) {
+        container.innerHTML = '<h2>Bearbeitungsprofil</h2><div class="grid" id="list"></div>';
+        data.profiles.forEach(p => addCard('list', p.name, `Vorschub fz: ${p.fz}`, p, 'profile'));
+    } else if (currentStep === 4) {
+        calculate();
+    }
 }
 
-body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-#app { max-width: 900px; margin: auto; background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+function addCard(parentId, title, subtitle, obj, type) {
+    const card = document.createElement('div');
+    card.className = `card ${selection[type] === obj ? 'selected' : ''}`;
+    card.innerHTML = `<h3>${title}</h3><p>${subtitle}</p>`;
+    card.onclick = () => { selection[type] = obj; renderStep(); document.getElementById('nextBtn').disabled = false; };
+    document.getElementById(parentId).appendChild(card);
+}
 
-header { margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-.stepper { display: flex; justify-content: space-between; margin-top: 20px; }
-.step-indicator { display: flex; flex-direction: column; align-items: center; color: #aaa; }
-.step-indicator.active { color: var(--primary); font-weight: bold; }
+function calculate() {
+    const { material, tool, profile } = selection;
+    // Formeln
+    const n = (material.vc * 1000) / (Math.PI * tool.d);
+    const vf = n * tool.z * profile.fz;
+    
+    document.getElementById('step-content').innerHTML = `
+        <h2>Ergebnisse</h2>
+        <div class="result-box">
+            <div class="stat-card"><strong>Drehzahl n:</strong><br>${Math.round(n)} U/min</div>
+            <div class="stat-card"><strong>Vorschub vf:</strong><br>${Math.round(vf)} mm/min</div>
+        </div>
+    `;
+    document.getElementById('nextBtn').style.display = 'none';
+}
 
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
-.card { border: 1px solid var(--border); padding: 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
-.card:hover { border-color: var(--accent); background: #f0f7ff; }
-.card.selected { border-color: var(--accent); background: #e7f1ff; box-shadow: inset 0 0 0 2px var(--accent); }
+function changeStep(dir) {
+    currentStep += dir;
+    renderStep();
+}
 
-.controls { margin-top: 30px; display: flex; justify-content: space-between; }
-button { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; background: var(--primary); color: white; }
-button:disabled { background: #ccc; cursor: not-allowed; }
-
-.result-box { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-.stat-card { padding: 20px; border: 1px solid var(--border); border-radius: 8px; background: #fafafa; }
+renderStep();
