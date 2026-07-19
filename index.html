@@ -12,13 +12,17 @@
         <header>
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h1>CNC Profi-Rechner</h1>
-                <button onclick="toggleTheme()" id="themeBtn">🌙/☀️</button>
+                <div>
+                    <button onclick="toggleTheme()" class="icon-btn">🌙/☀️</button>
+                    <button onclick="openAdmin()" class="icon-btn">⚙️ Admin</button>
+                </div>
             </div>
             <div class="stepper" id="stepper">
                 <div class="step-indicator" id="ind1">1. Werkstoff</div>
-                <div class="step-indicator" id="ind2">2. Werkzeug</div>
-                <div class="step-indicator" id="ind3">3. Prozess</div>
-                <div class="step-indicator" id="ind4">4. Ergebnis</div>
+                <div class="step-indicator" id="ind2">2. Art</div>
+                <div class="step-indicator" id="ind3">3. Werkzeug</div>
+                <div class="step-indicator" id="ind4">4. Prozess</div>
+                <div class="step-indicator" id="ind5">5. Ergebnis</div>
             </div>
         </header>
 
@@ -31,6 +35,35 @@
             <button id="nextBtn" onclick="changeStep(1)" disabled>Weiter</button>
         </footer>
     </div>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Admin-Konsole</h2>
+                <button onclick="closeAdmin()" class="close-btn">✖</button>
+            </div>
+            <div class="admin-tabs">
+                <button class="tab-btn active" onclick="switchTab('matTab')">Werkstoffe</button>
+                <button class="tab-btn" onclick="switchTab('catTab')">Kategorien</button>
+                <button class="tab-btn" onclick="switchTab('toolTab')">Werkzeuge</button>
+                <button class="tab-btn" onclick="switchTab('profTab')">Profile</button>
+            </div>
+            
+            <div id="admin-form-container">
+                <!-- Dynamisches Formular kommt hier rein -->
+            </div>
+            <hr>
+            <h3>Vorhandene Einträge</h3>
+            <div id="admin-list">
+                <!-- Liste zum Löschen -->
+            </div>
+            <div style="margin-top: 20px; text-align: right;">
+                <button onclick="factoryReset()" style="background: #e74c3c;">Auf Standard zurücksetzen</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
