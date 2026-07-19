@@ -1,37 +1,27 @@
-let currentStep = 1;
-const state = {
-    vc: 0, // Schnittgeschwindigkeit
-    d: 0,  // Durchmesser
-    z: 0,  // Schneidenanzahl
-    fz: 0  // Vorschub pro Zahn
-};
-
-function changeStep(n) {
-    document.getElementById(`step${currentStep}`).classList.remove('active');
-    currentStep += n;
-    document.getElementById(`step${currentStep}`).classList.add('active');
-    document.getElementById('currentStep').innerText = currentStep;
-    
-    // Berechne Ergebnis bei Schritt 4
-    if (currentStep === 4) calculate();
+:root {
+    --primary: #2c3e50;
+    --accent: #3498db;
+    --bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --border: #dee2e6;
 }
 
-function calculate() {
-    // Formel: n = (vc * 1000) / (PI * D)
-    const n = (state.vc * 1000) / (Math.PI * state.d);
-    
-    // Formel: vf = n * z * fz
-    const vf = n * state.z * state.fz;
+body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+#app { max-width: 900px; margin: auto; background: var(--card-bg); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
-    document.getElementById('res-n').innerText = Math.round(n);
-    document.getElementById('res-vf').innerText = Math.round(vf);
-}
+header { margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+.stepper { display: flex; justify-content: space-between; margin-top: 20px; }
+.step-indicator { display: flex; flex-direction: column; align-items: center; color: #aaa; }
+.step-indicator.active { color: var(--primary); font-weight: bold; }
 
-// Beispiel: Daten setzen (wird bei Klick auf Kachel aufgerufen)
-function selectMaterial(vc) {
-    state.vc = vc;
-}
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
+.card { border: 1px solid var(--border); padding: 20px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+.card:hover { border-color: var(--accent); background: #f0f7ff; }
+.card.selected { border-color: var(--accent); background: #e7f1ff; box-shadow: inset 0 0 0 2px var(--accent); }
 
-function resetApp() {
-    location.reload();
-}
+.controls { margin-top: 30px; display: flex; justify-content: space-between; }
+button { padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; background: var(--primary); color: white; }
+button:disabled { background: #ccc; cursor: not-allowed; }
+
+.result-box { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+.stat-card { padding: 20px; border: 1px solid var(--border); border-radius: 8px; background: #fafafa; }
