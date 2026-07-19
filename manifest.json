@@ -1,6 +1,7 @@
 {
   "name": "CNC Profi-Rechner",
-  "short_name": "CNC Tool",
+  "short_name": "CNC Rechner",
+  "description": "Schnittwertrechner für die Fräsbearbeitung mit Werkzeug-Datenbank",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
