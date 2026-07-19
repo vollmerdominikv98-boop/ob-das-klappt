@@ -36,6 +36,9 @@
         </footer>
     </div>
 
+    <!-- Versteckter Datei-Input für Backups -->
+    <input type="file" id="importFile" style="display:none" accept=".json" onchange="importData(event)">
+
     <!-- Admin Modal -->
     <div id="adminModal" class="modal">
         <div class="modal-content">
@@ -48,13 +51,14 @@
                 <button class="tab-btn" onclick="switchTab('catTab')">Kategorien</button>
                 <button class="tab-btn" onclick="switchTab('toolTab')">Werkzeuge</button>
                 <button class="tab-btn" onclick="switchTab('profTab')">Profile</button>
+                <button class="tab-btn" onclick="switchTab('backupTab')">💾 Backup</button>
             </div>
             
             <div id="admin-form-container">
                 <!-- Dynamisches Formular kommt hier rein -->
             </div>
-            <hr>
-            <h3>Vorhandene Einträge</h3>
+            <hr id="admin-hr">
+            <h3 id="admin-list-title">Vorhandene Einträge</h3>
             <div id="admin-list">
                 <!-- Liste zum Löschen -->
             </div>
