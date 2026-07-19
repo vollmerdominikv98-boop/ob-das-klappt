@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNC Schnittwertrechner</title>
+    <link rel="manifest" href="manifest.json">
+    <title>CNC Profi-Rechner</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app">
         <header>
-            <h1>CNC Schnittwertrechner</h1>
-            <div class="stepper">
-                <div class="step-indicator" id="ind1">1 <span>Werkstoff</span></div>
-                <div class="step-indicator" id="ind2">2 <span>Werkzeug</span></div>
-                <div class="step-indicator" id="ind3">3 <span>Prozess</span></div>
-                <div class="step-indicator" id="ind4">4 <span>Ergebnis</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h1>CNC Profi-Rechner</h1>
+                <button onclick="toggleTheme()" style="background:none; border:1px solid #ccc; padding:5px;">🌙/☀️</button>
+            </div>
+            <div class="stepper" id="stepper">
+                <div class="step-indicator active" id="ind1">1. Werkstoff</div>
+                <div class="step-indicator" id="ind2">2. Werkzeug</div>
+                <div class="step-indicator" id="ind3">3. Prozess</div>
+                <div class="step-indicator" id="ind4">4. Ergebnis</div>
             </div>
         </header>
 
-        <main id="step-content">
-            <!-- Inhalt wird hier durch script.js geladen -->
-        </main>
+        <main id="step-content"></main>
 
         <footer class="controls">
             <button id="prevBtn" onclick="changeStep(-1)" disabled>Zurück</button>
